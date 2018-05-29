@@ -1,0 +1,43 @@
+$headings: (
+  h1: (
+    font-size: 1.2em,
+    font-weight: 700,
+    color: green,
+    text-decoration: none
+  ),
+  h2: (
+    font-size: 1em,
+    font-weight: 700,
+    text-transform: uppercase,
+    color: gray,
+    text-decoration: none
+  )
+);
+
+@function getNestedMap($map, $keys...) {
+    @each $key in $keys {
+        $map: map-get($map, $key);
+    }
+    @return $map;
+}
+
+@function getHeadingProperty($level, $properties...) {
+    @return getNestedMap($headings, $level, $properties...);
+}
+
+$heading: h1;
+
+#{$heading} {
+  color: getHeadingProperty($heading, "color");
+  text-transform: getHeadingProperty($heading, "text-transform");
+  font-weight: getHeadingProperty($heading, "font-weight");
+  font-weight: getHeadingProperty($heading, "font-weight");
+  font-size: getHeadingProperty($heading, "font-size");
+}
+
+a {
+  &[data-parent=#{$heading}] {
+    color: inherit;
+    text-decoration: none;
+  }
+}
